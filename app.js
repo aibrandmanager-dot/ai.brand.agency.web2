@@ -70,19 +70,75 @@ document.querySelectorAll('.accordion details').forEach((detail) => {
 const form = document.querySelector('[data-contact-form]');
 const formStatus = document.querySelector('[data-form-status]');
 
-form?.addEventListener('submit', (event) => {
-  const isPreview = location.protocol === 'file:' || ['localhost', '127.0.0.1'].includes(location.hostname);
-  if (!isPreview) return;
+const SUPABASE_CONFIG = {
+  url: 'https://igtjpyyxfwyezyvchxfk.supabase.co',
+  publishableKey: 'sb_publishable_y4HM1wIINVGRjMZrjmrjOA_iIsilUr2',
+};
+
+const isSupabaseConfigured =
+  SUPABASE_CONFIG.url.startsWith('https://') &&
+  !SUPABASE_CONFIG.url.includes('YOUR_PROJECT_REF') &&
+  SUPABASE_CONFIG.publishableKey.startsWith('sb_publishable_');
+
+const setSubmitState = (button, isSubmitting) => {
+  button.disabled = isSubmitting;
+  button.firstChild.textContent = isSubmitting ? 'Wysyłamy... ' : 'Poproś o wycenę ';
+};
+
+const getLeadPayload = (submittedForm) => {
+  const data = new FormData(submittedForm);
+
+  return {
+    imie: String(data.get('imie') || '').trim(),
+    firma: String(data.get('firma') || '').trim(),
+    branza: String(data.get('branza') || '').trim(),
+    strona: String(data.get('strona') || '').trim() || null,
+    email: String(data.get('email') || '').trim(),
+    telefon: String(data.get('telefon') || '').trim() || null,
+    wiadomosc: String(data.get('wiadomosc') || '').trim(),
+    zgoda_na_kontakt: data.get('zgoda_na_kontakt') === 'on',
+    source: 'website',
+  };
+};
+
+form?.addEventListener('submit', async (event) => {
   event.preventDefault();
+
   const button = form.querySelector('button[type="submit"]');
-  button.disabled = true;
-  button.firstChild.textContent = 'Wysyłamy... ';
-  window.setTimeout(() => {
-    formStatus.textContent = 'Dziękujemy. Formularz działa w trybie demonstracyjnym — po wdrożeniu wiadomość trafi do skrzynki.';
-    button.disabled = false;
-    button.firstChild.textContent = 'Poproś o wycenę ';
+
+  if (!isSupabaseConfigured) {
+    formStatus.textContent = 'Formularz czeka na konfigurację Supabase. Uzupełnij adres projektu w pliku app.js.';
+    return;
+  }
+
+  setSubmitState(button, true);
+  formStatus.textContent = '';
+
+  try {
+    const response = await fetch(`${SUPABASE_CONFIG.url}/rest/v1/contact_requests`, {
+      method: 'POST',
+      headers: {
+        apikey: SUPABASE_CONFIG.publishableKey,
+        Authorization: `Bearer ${SUPABASE_CONFIG.publishableKey}`,
+        'Content-Type': 'application/json',
+        Prefer: 'return=minimal',
+      },
+      body: JSON.stringify(getLeadPayload(form)),
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(errorText || `Supabase error ${response.status}`);
+    }
+
+    formStatus.textContent = 'Dziękujemy. Wiadomość została wysłana — odezwiemy się z propozycją kierunku.';
     form.reset();
-  }, 700);
+  } catch (error) {
+    console.error('Supabase form error:', error);
+    formStatus.textContent = 'Nie udało się wysłać formularza. Spróbuj ponownie albo napisz do nas bezpośrednio.';
+  } finally {
+    setSubmitState(button, false);
+  }
 });
 
 document.querySelector('[data-year]').textContent = new Date().getFullYear();
