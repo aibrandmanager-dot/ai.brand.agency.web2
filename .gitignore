@@ -1,0 +1,15 @@
+.DS_Store
+._*
+Thumbs.db
+
+# Local/editor files
+.idea/
+.vscode/
+
+# Dependency/build folders if the project is later moved to a framework
+node_modules/
+dist/
+build/
+.next/
+.vercel/
+.netlify/
