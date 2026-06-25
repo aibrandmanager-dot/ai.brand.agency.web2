@@ -69,6 +69,8 @@ document.querySelectorAll('.accordion details').forEach((detail) => {
 
 const form = document.querySelector('[data-contact-form]');
 const formStatus = document.querySelector('[data-form-status]');
+const budgetRange = document.querySelector('[data-budget-range]');
+const budgetOutput = document.querySelector('[data-budget-output]');
 
 const SUPABASE_CONFIG = {
   url: 'https://igtjpyyxfwyezyvchxfk.supabase.co',
@@ -79,6 +81,65 @@ const isSupabaseConfigured =
   SUPABASE_CONFIG.url.startsWith('https://') &&
   !SUPABASE_CONFIG.url.includes('YOUR_PROJECT_REF') &&
   SUPABASE_CONFIG.publishableKey.startsWith('sb_publishable_');
+
+const formatBudget = (value) => `${Number(value || 0).toLocaleString('pl-PL')} zł`;
+
+const updateBudgetOutput = () => {
+  if (!budgetRange || !budgetOutput) return;
+  budgetOutput.textContent = formatBudget(budgetRange.value);
+};
+
+budgetRange?.addEventListener('input', updateBudgetOutput);
+updateBudgetOutput();
+
+const escapeHTML = (value) =>
+  String(value)
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#039;');
+
+const getNestedValue = (source, key) =>
+  key.split('.').reduce((current, part) => (current && current[part] !== undefined ? current[part] : undefined), source);
+
+const applySiteContent = (content) => {
+  if (!content || typeof content !== 'object') return;
+
+  document.querySelectorAll('[data-content]').forEach((element) => {
+    const value = getNestedValue(content, element.dataset.content);
+    if (typeof value !== 'string') return;
+    element.innerHTML = escapeHTML(value).replace(/\n/g, '<br />');
+  });
+
+  document.querySelectorAll('[data-image-key]').forEach((element) => {
+    const value = getNestedValue(content, element.dataset.imageKey);
+    if (typeof value !== 'string' || !value.trim()) return;
+    element.style.backgroundImage = `linear-gradient(rgba(0,0,0,.08), rgba(0,0,0,.12)), url("${value.trim()}")`;
+    element.classList.add('has-custom-image');
+  });
+};
+
+const loadSiteContent = async () => {
+  if (!isSupabaseConfigured) return;
+
+  try {
+    const response = await fetch(`${SUPABASE_CONFIG.url}/rest/v1/site_content?id=eq.homepage&select=content`, {
+      headers: {
+        apikey: SUPABASE_CONFIG.publishableKey,
+        Authorization: `Bearer ${SUPABASE_CONFIG.publishableKey}`,
+      },
+    });
+
+    if (!response.ok) return;
+    const [row] = await response.json();
+    applySiteContent(row?.content);
+  } catch (error) {
+    console.warn('Site content was not loaded:', error);
+  }
+};
+
+loadSiteContent();
 
 const setSubmitState = (button, isSubmitting) => {
   button.disabled = isSubmitting;
@@ -96,6 +157,7 @@ const getLeadPayload = (submittedForm) => {
     email: String(data.get('email') || '').trim(),
     telefon: String(data.get('telefon') || '').trim() || null,
     wiadomosc: String(data.get('wiadomosc') || '').trim(),
+    budzet: Number(data.get('budzet') || 0),
     zgoda_na_kontakt: data.get('zgoda_na_kontakt') === 'on',
     source: 'website',
   };
@@ -115,6 +177,7 @@ form?.addEventListener('submit', async (event) => {
   formStatus.textContent = '';
 
   try {
+    const leadPayload = getLeadPayload(form);
     const response = await fetch(`${SUPABASE_CONFIG.url}/rest/v1/contact_requests`, {
       method: 'POST',
       headers: {
@@ -123,16 +186,42 @@ form?.addEventListener('submit', async (event) => {
         'Content-Type': 'application/json',
         Prefer: 'return=minimal',
       },
-      body: JSON.stringify(getLeadPayload(form)),
+      body: JSON.stringify(leadPayload),
     });
 
     if (!response.ok) {
       const errorText = await response.text();
+      if (errorText.includes('budzet')) {
+        const fallbackPayload = {
+          ...leadPayload,
+          wiadomosc: `${leadPayload.wiadomosc}\n\nBudżet projektu: ${formatBudget(leadPayload.budzet)}`,
+        };
+        delete fallbackPayload.budzet;
+
+        const fallbackResponse = await fetch(`${SUPABASE_CONFIG.url}/rest/v1/contact_requests`, {
+          method: 'POST',
+          headers: {
+            apikey: SUPABASE_CONFIG.publishableKey,
+            Authorization: `Bearer ${SUPABASE_CONFIG.publishableKey}`,
+            'Content-Type': 'application/json',
+            Prefer: 'return=minimal',
+          },
+          body: JSON.stringify(fallbackPayload),
+        });
+
+        if (fallbackResponse.ok) {
+          formStatus.textContent = 'Dziękujemy. Wiadomość została wysłana — odezwiemy się z propozycją kierunku.';
+          form.reset();
+          updateBudgetOutput();
+          return;
+        }
+      }
       throw new Error(errorText || `Supabase error ${response.status}`);
     }
 
     formStatus.textContent = 'Dziękujemy. Wiadomość została wysłana — odezwiemy się z propozycją kierunku.';
     form.reset();
+    updateBudgetOutput();
   } catch (error) {
     console.error('Supabase form error:', error);
     formStatus.textContent = 'Nie udało się wysłać formularza. Spróbuj ponownie albo napisz do nas bezpośrednio.';
@@ -148,3 +237,13 @@ window.addEventListener(
   () => header?.classList.toggle('scrolled', window.scrollY > 24),
   { passive: true },
 );
+
+if (window.matchMedia('(pointer: fine)').matches) {
+  document.querySelectorAll('.service-card, .benefit-card, .visual-card').forEach((card) => {
+    card.addEventListener('pointermove', (event) => {
+      const rect = card.getBoundingClientRect();
+      card.style.setProperty('--mx', `${event.clientX - rect.left}px`);
+      card.style.setProperty('--my', `${event.clientY - rect.top}px`);
+    });
+  });
+}

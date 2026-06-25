@@ -14,6 +14,22 @@ Następnie otwórz `http://127.0.0.1:4173`.
 
 Kompozycja hero jest gotowa pod zapętlone video. Przy integracji docelowego materiału umieść plik w `assets/hero-loop.mp4` i dodaj element `<video autoplay muted loop playsinline>` wewnątrz `.stage-media`. Obecna wersja używa lekkiego, animowanego visualu CSS jako bezpiecznego placeholdera.
 
-## Formularz
+## Supabase
 
-Formularz ma atrybuty kompatybilne z Netlify Forms (`data-netlify="true"`). W lokalnym podglądzie działa w trybie demonstracyjnym; po wdrożeniu na Netlify wysyła dane bez dodatkowego backendu.
+Formularz kontaktowy wysyła dane do tabeli `contact_requests` w Supabase. Panel administracyjny (`/admin.html`) korzysta z Supabase Auth, pobiera zgłoszenia i zapisuje treści strony w tabeli `site_content`.
+
+Przed testowaniem nowej wersji uruchom w Supabase SQL Editor plik:
+
+```text
+supabase-admin-setup.sql
+```
+
+Następnie utwórz konto admina w:
+
+```text
+Supabase → Authentication → Users → Add user
+```
+
+Tym adresem e-mail i hasłem zalogujesz się w `/admin.html`.
+
+Do frontendu dodany jest tylko publishable key. Nie dodawaj do plików ani GitHuba kluczy `sb_secret_*`.
