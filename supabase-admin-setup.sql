@@ -21,6 +21,42 @@ create table if not exists public.contact_requests (
 alter table public.contact_requests
   add column if not exists budzet integer;
 
+alter table public.contact_requests
+  add column if not exists imie text;
+
+alter table public.contact_requests
+  add column if not exists firma text;
+
+alter table public.contact_requests
+  add column if not exists branza text;
+
+alter table public.contact_requests
+  add column if not exists strona text;
+
+alter table public.contact_requests
+  add column if not exists email text;
+
+alter table public.contact_requests
+  add column if not exists telefon text;
+
+alter table public.contact_requests
+  add column if not exists wiadomosc text;
+
+alter table public.contact_requests
+  add column if not exists zgoda_na_kontakt boolean default false;
+
+alter table public.contact_requests
+  add column if not exists status text default 'new';
+
+alter table public.contact_requests
+  add column if not exists source text default 'website';
+
+alter table public.contact_requests
+  add column if not exists created_at timestamptz default now();
+
+alter table public.contact_requests
+  add column if not exists updated_at timestamptz default now();
+
 create index if not exists contact_requests_created_at_idx
   on public.contact_requests (created_at desc);
 
@@ -36,6 +72,15 @@ create table if not exists public.site_content (
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
+
+alter table public.site_content
+  add column if not exists content jsonb not null default '{}'::jsonb;
+
+alter table public.site_content
+  add column if not exists created_at timestamptz not null default now();
+
+alter table public.site_content
+  add column if not exists updated_at timestamptz not null default now();
 
 create or replace function public.set_updated_at()
 returns trigger as $$
