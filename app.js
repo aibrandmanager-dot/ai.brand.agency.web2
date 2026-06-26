@@ -105,6 +105,7 @@ const getNestedValue = (source, key) =>
 
 const applySiteContent = (content) => {
   if (!content || typeof content !== 'object') return;
+  if (content.__version !== 'landing-v2') return;
 
   document.querySelectorAll('[data-content]').forEach((element) => {
     const value = getNestedValue(content, element.dataset.content);
@@ -239,7 +240,7 @@ window.addEventListener(
 );
 
 if (window.matchMedia('(pointer: fine)').matches) {
-  document.querySelectorAll('.service-card, .benefit-card, .visual-card').forEach((card) => {
+  document.querySelectorAll('.service-card, .benefit-card, .visual-card, .v2-service-card, .v2-gallery-card, .v2-worth-card').forEach((card) => {
     card.addEventListener('pointermove', (event) => {
       const rect = card.getBoundingClientRect();
       card.style.setProperty('--mx', `${event.clientX - rect.left}px`);

@@ -4,59 +4,54 @@ const SUPABASE_CONFIG = {
 };
 
 const DEFAULT_SITE_CONTENT = {
+  __version: 'landing-v2',
   hero: {
-    title: 'Tworzymy kreatywne strony internetowe dla firm, które chcą wyglądać jak marka.',
+    title: 'Nowoczesne strony dla firm i ekspertów',
     subtitle:
-      'Projektujemy landing pages i rozbudowane strony z bazą danych, domeną, formularzami oraz panelem administracyjnym, w którym możesz później edytować treści, zdjęcia i szczegóły oferty.',
-    cta: 'Zamów wycenę strony ↗',
+      'Tworzymy strony internetowe, które budują profesjonalny wizerunek, jasno pokazują wartość oferty i prowadzą klientów do kontaktu.',
   },
   offer: {
-    title: 'Strony, które nie tylko wyglądają. One pracują.',
-    subtitle:
-      'Budujemy kreatywne, szybkie i gotowe do rozwoju strony dla firm: od landing page po serwis z bazą danych, domeną i panelem do edycji treści.',
+    title: 'Co tworzymy?',
+    subtitle: 'Łączymy nowoczesne strony internetowe, AI visuale i content, żeby Twoja firma wyglądała lepiej online.',
     card1: {
-      title: 'Strony internetowe pod klucz',
-      text: 'Projekt, wdrożenie, formularze, baza danych, podłączenie domeny i publikacja. Dostajesz stronę gotową do działania, a nie tylko ładny obrazek.',
+      title: 'Strony internetowe',
+      text: 'Nowoczesne strony dla firm, usługodawców i ekspertów.',
     },
     card2: {
       title: 'Landing pages',
-      text: 'Strony sprzedażowe pod konkretną usługę, kampanię, reklamę lub premierę oferty.',
+      text: 'Strony pod konkretną ofertę, reklamę lub usługę.',
     },
     card3: {
-      title: 'Strony z bazą danych',
-      text: 'Formularze, zapis zgłoszeń, integracje z Supabase i struktura gotowa pod przyszłą automatyzację.',
+      title: 'AI visuale',
+      text: 'Grafiki i obrazy, które wzmacniają wygląd strony i marki.',
     },
     card4: {
-      title: 'Panel administracyjny',
-      text: 'Prosty panel, w którym możesz zmieniać teksty, zdjęcia, sekcje i statusy zgłoszeń bez dotykania kodu.',
+      title: 'Digital content',
+      text: 'Materiały wizualne do social media, reklam i prezentacji.',
     },
   },
   web: {
-    title: 'Nowoczesne strony internetowe dla firm',
+    title: 'Strona, która wygląda dobrze i jasno prowadzi klienta do kontaktu',
     subtitle:
-      'Projektujemy strony tak, żeby były gotowe na realne użycie: formularze, baza danych, edycja treści, domena, responsywność i miejsce na rozwój.',
+      'Projektujemy strony tak, aby klient szybko zrozumiał, czym się zajmujesz, dlaczego warto Ci zaufać i jak może się z Tobą skontaktować.',
   },
   extra: {
-    title: 'Poza stronami tworzymy też zaplecze AI dla marki.',
-    subtitle: 'Visuale, video i automatyzacje.',
-    card1: { title: 'Generowanie zdjęć AI', image: '' },
-    card2: { title: 'Video AI', image: '' },
-    card3: { title: 'Agenci AI', image: '' },
-    card4: { title: 'Content dla marki', image: '' },
-    card5: { title: 'Integracje i workflow', image: '' },
-    note:
-      'Najważniejsza specjalizacja to strony internetowe. Dodatkowe usługi AI pomagają zrobić z nich pełniejszy, bardziej nowoczesny system sprzedaży i wizerunku.',
+    title: 'Dodatkowe usługi, które wzmacniają stronę',
+    subtitle: 'Jeśli nie masz dobrych materiałów, możemy stworzyć visuale i content dopasowany do Twojej marki.',
+    card1: { title: 'AI visuale do strony', image: '' },
+    card2: { title: 'Product visuals', image: '' },
+    card3: { title: 'Content do social media', image: '' },
+    card4: { title: 'AI video / motion', image: '' },
   },
   contact: {
-    title: 'Chcesz stronę, którą da się pokazać klientom z dumą?',
-    text: 'Napisz do nas i opisz krótko swoją firmę. Przygotujemy propozycję kierunku, zakres strony i realny plan wdrożenia.',
+    title: 'Opowiedz nam o swoim projekcie',
+    text: 'Opisz swoją firmę i stronę, której potrzebujesz. Wrócimy z propozycją i wstępną wyceną.',
   },
 };
 
 const EDITABLE_FIELDS = [
   ['hero.title', 'Hero — główny nagłówek', 'textarea'],
   ['hero.subtitle', 'Hero — opis', 'textarea'],
-  ['hero.cta', 'Hero — przycisk CTA', 'input'],
   ['offer.title', 'Oferta — nagłówek', 'textarea'],
   ['offer.subtitle', 'Oferta — opis', 'textarea'],
   ['offer.card1.title', 'Karta 1 — tytuł', 'input'],
@@ -79,9 +74,6 @@ const EDITABLE_FIELDS = [
   ['extra.card3.image', 'Usługa AI 3 — URL zdjęcia', 'input'],
   ['extra.card4.title', 'Usługa AI 4 — tytuł', 'input'],
   ['extra.card4.image', 'Usługa AI 4 — URL zdjęcia', 'input'],
-  ['extra.card5.title', 'Usługa AI 5 — tytuł', 'input'],
-  ['extra.card5.image', 'Usługa AI 5 — URL zdjęcia', 'input'],
-  ['extra.note', 'Usługi AI — opis końcowy', 'textarea'],
   ['contact.title', 'Kontakt — nagłówek', 'textarea'],
   ['contact.text', 'Kontakt — opis', 'textarea'],
 ];
@@ -280,6 +272,7 @@ const renderContentEditor = () => {
 
 const syncContentFromFields = () => {
   const nextContent = structuredClone(currentContent);
+  nextContent.__version = 'landing-v2';
   document.querySelectorAll('[data-content-field]').forEach((field) => setNestedValue(nextContent, field.dataset.contentField, field.value));
 
   try {
