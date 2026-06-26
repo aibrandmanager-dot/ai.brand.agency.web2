@@ -68,12 +68,61 @@ const navObserver = new IntersectionObserver(
 
 trackedSections.forEach((section) => navObserver.observe(section));
 
+const animateFaqClose = (detail) => {
+  if (!detail.open || detail.dataset.animating === 'true') return;
+
+  const startHeight = detail.offsetHeight;
+  const summaryHeight = detail.querySelector('summary')?.offsetHeight || 0;
+  detail.dataset.animating = 'true';
+  detail.style.height = `${startHeight}px`;
+
+  const animation = detail.animate(
+    [
+      { height: `${startHeight}px`, opacity: 1 },
+      { height: `${summaryHeight}px`, opacity: 0.92 },
+    ],
+    { duration: 280, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' },
+  );
+
+  animation.onfinish = () => {
+    detail.open = false;
+    detail.style.height = '';
+    detail.dataset.animating = 'false';
+  };
+};
+
+const animateFaqOpen = (detail) => {
+  if (detail.open || detail.dataset.animating === 'true') return;
+
+  document.querySelectorAll('.accordion details[open]').forEach((other) => {
+    if (other !== detail) animateFaqClose(other);
+  });
+
+  const summaryHeight = detail.querySelector('summary')?.offsetHeight || 0;
+  detail.open = true;
+  const endHeight = detail.offsetHeight;
+  detail.dataset.animating = 'true';
+  detail.style.height = `${summaryHeight}px`;
+
+  const animation = detail.animate(
+    [
+      { height: `${summaryHeight}px`, opacity: 0.94 },
+      { height: `${endHeight}px`, opacity: 1 },
+    ],
+    { duration: 360, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' },
+  );
+
+  animation.onfinish = () => {
+    detail.style.height = '';
+    detail.dataset.animating = 'false';
+  };
+};
+
 document.querySelectorAll('.accordion details').forEach((detail) => {
-  detail.addEventListener('toggle', () => {
-    if (!detail.open) return;
-    document.querySelectorAll('.accordion details').forEach((other) => {
-      if (other !== detail) other.removeAttribute('open');
-    });
+  detail.querySelector('summary')?.addEventListener('click', (event) => {
+    event.preventDefault();
+    if (detail.open) animateFaqClose(detail);
+    else animateFaqOpen(detail);
   });
 });
 
@@ -255,13 +304,3 @@ window.addEventListener(
   () => header?.classList.toggle('scrolled', window.scrollY > 24),
   { passive: true },
 );
-
-if (window.matchMedia('(pointer: fine)').matches) {
-  document.querySelectorAll('.service-card, .benefit-card, .visual-card, .v2-service-card, .v2-gallery-card, .v2-worth-card').forEach((card) => {
-    card.addEventListener('pointermove', (event) => {
-      const rect = card.getBoundingClientRect();
-      card.style.setProperty('--mx', `${event.clientX - rect.left}px`);
-      card.style.setProperty('--my', `${event.clientY - rect.top}px`);
-    });
-  });
-}
