@@ -1,16 +1,6 @@
 const header = document.querySelector('[data-header]');
 const menuToggle = document.querySelector('[data-menu-toggle]');
 const mobileNav = document.querySelector('[data-mobile-nav]');
-const heroVideo = document.querySelector('[data-hero-video]');
-
-if (heroVideo) {
-  const slowHeroVideo = () => {
-    heroVideo.playbackRate = 0.8;
-  };
-
-  slowHeroVideo();
-  heroVideo.addEventListener('loadedmetadata', slowHeroVideo, { once: true });
-}
 
 menuToggle?.addEventListener('click', () => {
   const isOpen = header.classList.toggle('menu-open');
