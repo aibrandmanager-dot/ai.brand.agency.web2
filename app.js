@@ -1,6 +1,16 @@
 const header = document.querySelector('[data-header]');
 const menuToggle = document.querySelector('[data-menu-toggle]');
 const mobileNav = document.querySelector('[data-mobile-nav]');
+const heroVideo = document.querySelector('[data-hero-video]');
+
+if (heroVideo) {
+  const slowHeroVideo = () => {
+    heroVideo.playbackRate = 0.8;
+  };
+
+  slowHeroVideo();
+  heroVideo.addEventListener('loadedmetadata', slowHeroVideo, { once: true });
+}
 
 menuToggle?.addEventListener('click', () => {
   const isOpen = header.classList.toggle('menu-open');
@@ -103,14 +113,21 @@ const escapeHTML = (value) =>
 const getNestedValue = (source, key) =>
   key.split('.').reduce((current, part) => (current && current[part] !== undefined ? current[part] : undefined), source);
 
+const renderEditableText = (value, accentFirst = false) => {
+  const escaped = escapeHTML(value).replace(/\n/g, '<br />');
+  if (!accentFirst) return escaped;
+
+  return escaped.replace(/^(\S+)/, '<span class="accent-serif">$1</span>');
+};
+
 const applySiteContent = (content) => {
   if (!content || typeof content !== 'object') return;
-  if (content.__version !== 'landing-v2') return;
+  if (content.__version !== 'landing-v3') return;
 
   document.querySelectorAll('[data-content]').forEach((element) => {
     const value = getNestedValue(content, element.dataset.content);
     if (typeof value !== 'string') return;
-    element.innerHTML = escapeHTML(value).replace(/\n/g, '<br />');
+    element.innerHTML = renderEditableText(value, element.hasAttribute('data-accent-first'));
   });
 
   document.querySelectorAll('[data-image-key]').forEach((element) => {
@@ -144,7 +161,7 @@ loadSiteContent();
 
 const setSubmitState = (button, isSubmitting) => {
   button.disabled = isSubmitting;
-  button.firstChild.textContent = isSubmitting ? 'Wysyłamy... ' : 'Poproś o wycenę ';
+  button.firstChild.textContent = isSubmitting ? 'Wysyłamy... ' : 'Wyślij zapytanie ';
 };
 
 const getLeadPayload = (submittedForm) => {

@@ -4,7 +4,7 @@ const SUPABASE_CONFIG = {
 };
 
 const DEFAULT_SITE_CONTENT = {
-  __version: 'landing-v2',
+  __version: 'landing-v3',
   hero: {
     title: 'Nowoczesne strony dla firm i ekspertów',
     subtitle:
@@ -15,25 +15,20 @@ const DEFAULT_SITE_CONTENT = {
     subtitle: 'Łączymy nowoczesne strony internetowe, AI visuale i content, żeby Twoja firma wyglądała lepiej online.',
     card1: {
       title: 'Strony internetowe',
-      text: 'Nowoczesne strony dla firm, usługodawców i ekspertów.',
+      text: 'Nowoczesne strony dla firm, ekspertów i usługodawców.',
     },
     card2: {
-      title: 'Landing pages',
-      text: 'Strony pod konkretną ofertę, reklamę lub usługę.',
-    },
-    card3: {
-      title: 'AI visuale',
+      title: 'Visuale AI',
       text: 'Grafiki i obrazy, które wzmacniają wygląd strony i marki.',
     },
-    card4: {
+    card3: {
       title: 'Digital content',
       text: 'Materiały wizualne do social media, reklam i prezentacji.',
     },
   },
   web: {
-    title: 'Strona, która wygląda dobrze i jasno prowadzi klienta do kontaktu',
-    subtitle:
-      'Projektujemy strony tak, aby klient szybko zrozumiał, czym się zajmujesz, dlaczego warto Ci zaufać i jak może się z Tobą skontaktować.',
+    title: 'Profesjonalny wizerunek online',
+    subtitle: 'Tworzymy stronę, która buduje zaufanie, porządkuje ofertę i wzmacnia pierwsze wrażenie.',
   },
   extra: {
     title: 'Dodatkowe usługi, które wzmacniają stronę',
@@ -60,8 +55,6 @@ const EDITABLE_FIELDS = [
   ['offer.card2.text', 'Karta 2 — opis', 'textarea'],
   ['offer.card3.title', 'Karta 3 — tytuł', 'input'],
   ['offer.card3.text', 'Karta 3 — opis', 'textarea'],
-  ['offer.card4.title', 'Karta 4 — tytuł', 'input'],
-  ['offer.card4.text', 'Karta 4 — opis', 'textarea'],
   ['web.title', 'Web design — nagłówek', 'textarea'],
   ['web.subtitle', 'Web design — opis', 'textarea'],
   ['extra.title', 'Usługi AI — nagłówek', 'textarea'],
@@ -272,7 +265,7 @@ const renderContentEditor = () => {
 
 const syncContentFromFields = () => {
   const nextContent = structuredClone(currentContent);
-  nextContent.__version = 'landing-v2';
+  nextContent.__version = 'landing-v3';
   document.querySelectorAll('[data-content-field]').forEach((field) => setNestedValue(nextContent, field.dataset.contentField, field.value));
 
   try {
@@ -292,7 +285,8 @@ const loadContent = async () => {
     });
     const payload = await response.json();
     if (!response.ok) throw new Error(payload.message || 'Nie udało się pobrać treści.');
-    currentContent = payload[0]?.content || structuredClone(DEFAULT_SITE_CONTENT);
+    const savedContent = payload[0]?.content;
+    currentContent = savedContent?.__version === 'landing-v3' ? savedContent : structuredClone(DEFAULT_SITE_CONTENT);
   } catch (error) {
     setStatus(contentStatus, `${error.message}. Jeżeli to pierwszy raz, uruchom SQL z pliku supabase-admin-setup.sql.`, true);
     currentContent = structuredClone(DEFAULT_SITE_CONTENT);
