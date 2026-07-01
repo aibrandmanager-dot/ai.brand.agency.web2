@@ -2,8 +2,8 @@
 -- Paste this script into your Supabase SQL Editor (https://supabase.com -> Dashboard -> SQL Editor -> New Query).
 -- Make sure to replace the placeholder API key and recipient email with your actual values.
 
--- 1. Enable the http extension in Supabase
-create extension if not exists http with schema extensions;
+-- 1. Enable the pg_net extension in Supabase (essential for asynchronous, non-blocking HTTP requests)
+create extension if not exists pg_net with schema extensions;
 
 -- 2. Create the notification trigger function
 create or replace function public.send_contact_notification()
@@ -15,12 +15,12 @@ declare
   -- IMPORTANT: Replace with the email address where you want to receive notifications
   recipient_email text := 'ai.brand.manager@gmail.com';
   
-  email_body text;
+  email_payload jsonb;
 begin
-  -- Build the JSON body for Resend API
+  -- Build the JSONB payload for Resend API
   -- Note: Resend.dev sandboxed domain allows sending from 'onboarding@resend.dev' to your verified account email.
   -- If you connect your own custom domain to Resend, you can change the 'from' field to 'kontakt@yourdomain.pl'.
-  email_body := json_build_object(
+  email_payload := jsonb_build_object(
     'from', 'AI Brand Agency Form <onboarding@resend.dev>',
     'to', array[recipient_email],
     'subject', 'Nowa wycena: ' || coalesce(new.imie, 'Klient') || ' (' || coalesce(new.firma, '-') || ')',
@@ -35,23 +35,22 @@ begin
               '<tr style="background:#f9f9f9;"><td style="padding:8px; border:1px solid #eee; font-weight:bold;">Strona WWW:</td><td style="padding:8px; border:1px solid #eee;">' || coalesce(new.strona, '-') || '</td></tr>' ||
               '<tr><td style="padding:8px; border:1px solid #eee; font-weight:bold; vertical-align:top;">Wiadomość:</td><td style="padding:8px; border:1px solid #eee; white-space:pre-wrap;">' || coalesce(new.wiadomosc, '-') || '</td></tr>' ||
             '</table>'
-  )::text;
+  );
 
-  -- Fire POST request using HTTP extension with full headers support.
-  -- Wrapped in a try/catch block to prevent form failures if Resend API has issues or is incorrectly configured.
+  -- Use pg_net to send the HTTP POST request asynchronously.
+  -- This runs in the background, finishes instantly, and does not block the transaction or wait for the API response.
   begin
-    perform extensions.http((
-      'POST',
-      'https://api.resend.com/emails',
-      ARRAY[
-        extensions.http_header('Authorization', 'Bearer ' || resend_api_key)
-      ],
-      'application/json',
-      email_body
-    )::extensions.http_request);
+    perform net.http_post(
+      url := 'https://api.resend.com/emails',
+      headers := jsonb_build_object(
+        'Content-Type', 'application/json',
+        'Authorization', 'Bearer ' || resend_api_key
+      ),
+      body := email_payload
+    );
   exception when others then
-    -- Suppress all exceptions to prevent database rollback on client-side requests
-    raise warning 'Resend email dispatch failed: %', SQLERRM;
+    -- Log warning inside DB if pg_net queue fails
+    raise warning 'Failed to queue Resend notification: %', SQLERRM;
   end;
 
   return new;
@@ -65,4 +64,4 @@ create trigger on_contact_request_insert
   for each row execute function public.send_contact_notification();
 
 -- 4. Verify trigger setup message
-select 'Resend database trigger successfully configured!' as status;
+select 'Resend database trigger successfully configured via pg_net!' as status;
