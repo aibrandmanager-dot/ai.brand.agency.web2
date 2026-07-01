@@ -543,6 +543,32 @@ const sendToWeb3Forms = async (leadPayload) => {
   }
 };
 
+const successModal = document.getElementById('success-modal');
+const successCloseBtn = document.getElementById('success-modal-close');
+const modalBackdrop = successModal?.querySelector('.success-modal-backdrop');
+
+const showSuccessModal = () => {
+  if (!successModal) return;
+  successModal.style.display = 'flex';
+  successModal.offsetHeight; // force reflow
+  successModal.classList.add('show');
+  successModal.setAttribute('aria-hidden', 'false');
+  document.body.classList.add('nav-lock');
+};
+
+const hideSuccessModal = () => {
+  if (!successModal) return;
+  successModal.classList.remove('show');
+  successModal.setAttribute('aria-hidden', 'true');
+  document.body.classList.remove('nav-lock');
+  setTimeout(() => {
+    successModal.style.display = 'none';
+  }, 400);
+};
+
+successCloseBtn?.addEventListener('click', hideSuccessModal);
+modalBackdrop?.addEventListener('click', hideSuccessModal);
+
 form?.addEventListener('submit', async (event) => {
   event.preventDefault();
 
@@ -559,14 +585,10 @@ form?.addEventListener('submit', async (event) => {
 
   if (!isSupabaseConfigured) {
     saveMockLead(leadPayload);
-    let msg = 'Dziękujemy (Tryb Demo). Wiadomość została zapisana lokalnie! Sprawdź ją w panelu admina.';
-    if (emailSent) {
-      msg = 'Dziękujemy! Wiadomość została wysłana na Twój e-mail oraz zapisana lokalnie w panelu admina (Tryb Demo).';
-    }
-    formStatus.textContent = msg;
     form.reset();
     updateBudgetOutput();
     setSubmitState(button, false);
+    showSuccessModal();
     return;
   }
 
@@ -603,18 +625,18 @@ form?.addEventListener('submit', async (event) => {
         });
 
         if (fallbackResponse.ok) {
-          formStatus.textContent = 'Dziękujemy. Wiadomość została wysłana — odezwiemy się z propozycją kierunku.';
           form.reset();
           updateBudgetOutput();
+          showSuccessModal();
           return;
         }
       }
       throw new Error(errorText || `Supabase error ${response.status}`);
     }
 
-    formStatus.textContent = 'Dziękujemy. Wiadomość została wysłana — odezwiemy się z propozycją kierunku.';
     form.reset();
     updateBudgetOutput();
+    showSuccessModal();
   } catch (error) {
     console.error('Supabase form error:', error);
     formStatus.textContent = 'Nie udało się wysłać formularza. Spróbuj ponownie albo napisz do nas bezpośrednio.';
