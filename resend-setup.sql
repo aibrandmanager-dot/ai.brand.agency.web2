@@ -16,16 +16,16 @@ declare
   -- IMPORTANT: Replace with your actual Resend API Key (starts with re_...)
   resend_api_key text := 're_YOUR_RESEND_API_KEY';
   
-  -- IMPORTANT: Replace with the email address where you want to receive notifications
-  recipient_email text := 'ai.brand.manager@gmail.com';
+  -- IMPORTANT: Replace with the email address where you want to receive admin notifications
+  admin_email text := 'ai.brand.manager@gmail.com';
   
-  email_payload jsonb;
+  admin_email_payload jsonb;
+  client_email_payload jsonb;
 begin
-  -- Build the JSONB payload for Resend API
-  -- Note: Now using your verified custom domain address!
-  email_payload := jsonb_build_object(
+  -- 1. Build the payload for the ADMIN notification email
+  admin_email_payload := jsonb_build_object(
     'from', 'AI Brand Agency Form <kontakt@ai-brand-agency.pl>',
-    'to', array[recipient_email],
+    'to', array[admin_email],
     'subject', 'Nowa wycena: ' || coalesce(new.imie, 'Klient') || ' (' || coalesce(new.firma, '-') || ')',
     'html', '<h3>Masz nowe zgłoszenie z formularza kontaktowego!</h3>' ||
             '<table style="width:100%; border-collapse:collapse; font-family:sans-serif; font-size:14px; margin-top:15px;">' ||
@@ -40,8 +40,7 @@ begin
             '</table>'
   );
 
-  -- Use pg_net to send the HTTP POST request asynchronously.
-  -- This runs in the background, finishes instantly, and does not block the transaction or wait for the API response.
+  -- Use pg_net to queue the admin email asynchronously
   begin
     perform net.http_post(
       url := 'https://api.resend.com/emails',
@@ -49,12 +48,41 @@ begin
         'Content-Type', 'application/json',
         'Authorization', 'Bearer ' || resend_api_key
       ),
-      body := email_payload
+      body := admin_email_payload
     );
   exception when others then
-    -- Log warning inside DB if pg_net queue fails
-    raise warning 'Failed to queue Resend notification: %', SQLERRM;
+    raise warning 'Failed to queue admin notification: %', SQLERRM;
   end;
+
+  -- 2. Build and queue the CLIENT confirmation receipt email (if client email is present)
+  if new.email is not null and new.email like '%@%' then
+    client_email_payload := jsonb_build_object(
+      'from', 'AI Brand Agency <kontakt@ai-brand-agency.pl>',
+      'to', array[new.email],
+      'subject', 'Dziękujemy za zgłoszenie — AI Brand Agency',
+      'html', '<div style="font-family:sans-serif; line-height:1.6; color:#111; max-width:600px; margin:0 auto; padding:20px;">' ||
+                '<h2 style="color:#ff5a1f; font-weight:500; margin-bottom:16px;">Dzień dobry ' || coalesce(new.imie, '') || '!</h2>' ||
+                '<p>Dziękujemy za kontakt z AI Brand Agency. Pomyślnie otrzymaliśmy Twoje zapytanie ofertowe dotyczące strony dla firmy <strong>' || coalesce(new.firma, '') || '</strong>.</p>' ||
+                '<p>Nasz zespół już analizuje przesłane dane i przygotowuje wstępny plan wdrożenia. Skontaktujemy się z Tobą w ciągu najbliższych 24 godzin.</p>' ||
+                '<hr style="border:0; border-top:1px solid #eee; margin:24px 0;">' ||
+                '<p style="font-size:12px; color:#666;">Wiadomość została wygenerowana automatycznie przez formularz kontaktowy. Prosimy na nią nie odpowiadać bezpośrednio.</p>' ||
+                '<p style="font-weight:600; color:#ff5a1f; margin-top:20px;">Pozdrawiamy,<br>Zespół AI Brand Agency</p>' ||
+              '</div>'
+    );
+
+    begin
+      perform net.http_post(
+        url := 'https://api.resend.com/emails',
+        headers := jsonb_build_object(
+          'Content-Type', 'application/json',
+          'Authorization', 'Bearer ' || resend_api_key
+        ),
+        body := client_email_payload
+      );
+    exception when others then
+      raise warning 'Failed to queue client confirmation: %', SQLERRM;
+    end;
+  end if;
 
   return new;
 end;
