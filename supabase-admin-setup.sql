@@ -19,6 +19,9 @@ create table if not exists public.contact_requests (
 );
 
 alter table public.contact_requests
+  add column if not exists replies jsonb default '[]'::jsonb;
+
+alter table public.contact_requests
   add column if not exists budzet integer;
 
 alter table public.contact_requests

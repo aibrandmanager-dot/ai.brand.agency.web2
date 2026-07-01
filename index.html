@@ -6,12 +6,50 @@
     <meta name="description" content="AI Brand Agency tworzy nowoczesne strony internetowe, landing pages i AI visual content dla firm oraz ekspertów." />
     <meta name="theme-color" content="#070707" />
     <title>AI Brand Agency — nowoczesne strony dla firm i ekspertów</title>
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://ai-brand-agency.pl/" />
+    <meta property="og:title" content="AI Brand Agency — nowoczesne strony dla firm i ekspertów" />
+    <meta property="og:description" content="AI Brand Agency tworzy nowoczesne strony internetowe, landing pages i AI visual content dla firm oraz ekspertów." />
+    <meta property="og:image" content="https://ai-brand-agency.pl/photo/LOGO%20pl%20glow.png" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://ai-brand-agency.pl/" />
+    <meta property="twitter:title" content="AI Brand Agency — nowoczesne strony dla firm i ekspertów" />
+    <meta property="twitter:description" content="AI Brand Agency tworzy nowoczesne strony internetowe, landing pages i AI visual content dla firm oraz ekspertów." />
+    <meta property="twitter:image" content="https://ai-brand-agency.pl/photo/LOGO%20pl%20glow.png" />
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ProfessionalService",
+      "name": "AI Brand Agency",
+      "image": "https://ai-brand-agency.pl/photo/LOGO%20pl%20glow.png",
+      "@id": "https://ai-brand-agency.pl/#organization",
+      "url": "https://ai-brand-agency.pl",
+      "telephone": "",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Warszawa",
+        "addressCountry": "PL"
+      },
+      "sameAs": [
+        "https://www.instagram.com/ai.brand.agency/"
+      ],
+      "description": "AI Brand Agency tworzy nowoczesne strony internetowe, landing pages i AI visual content dla firm oraz ekspertów."
+    }
+    </script>
     <link rel="icon" type="image/png" href="photo/LOGO pl glow.png" />
     <link rel="apple-touch-icon" href="photo/LOGO pl glow.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/ogl@0.0.32/dist/ogl.umd.js"></script>
+    <script src="https://unpkg.com/lenis@1.1.9/dist/lenis.min.js"></script>
     <script src="app.js" defer></script>
   </head>
   <body class="site-v2">
@@ -24,16 +62,16 @@
           <span>AI Brand<br />Agency</span>
         </a>
 
-        <nav class="desktop-nav" aria-label="Główna nawigacja">
+        <nav class="desktop-nav" aria-label="Główna nawigacja" data-nav-menu>
           <a href="#oferta">Oferta</a>
           <a href="#strony">Strony</a>
           <a href="#proces">Proces</a>
           <a href="#uslugi">Usługi dodatkowe</a>
-          <a href="#kontakt">Kontakt</a>
           <a href="#faq">FAQ</a>
+          <a href="#kontakt">Kontakt</a>
         </nav>
 
-        <a class="button button-small button-light header-cta" href="#kontakt">
+        <a class="button button-small button-light header-cta" href="#kontakt" data-content="header.cta_text" data-href-key="header.cta_href">
           Zamów wycenę
           <span class="button-arrow" aria-hidden="true">↗</span>
         </a>
@@ -43,39 +81,38 @@
         </button>
       </div>
 
-      <nav class="mobile-nav" aria-label="Menu mobilne" aria-hidden="true" inert data-mobile-nav>
+      <nav class="mobile-nav" aria-label="Menu mobilne" aria-hidden="true" inert data-mobile-nav data-mobile-nav-links>
         <a href="#oferta">Oferta</a>
         <a href="#strony">Strony</a>
         <a href="#proces">Proces</a>
         <a href="#uslugi">Usługi dodatkowe</a>
-        <a href="#kontakt">Kontakt</a>
         <a href="#faq">FAQ</a>
-        <a class="button button-accent" href="#kontakt">Zamów wycenę <span class="button-arrow" aria-hidden="true">↗</span></a>
+        <a href="#kontakt">Kontakt</a>
+        <a class="button button-accent" href="#kontakt" data-content="header.cta_text" data-href-key="header.cta_href">Zamów wycenę <span class="button-arrow" aria-hidden="true">↗</span></a>
       </nav>
     </header>
 
     <main id="main">
       <section class="hero v2-hero" id="top">
-        <div class="hero-grid" aria-hidden="true"></div>
-        <div class="hero-glow hero-glow-one" aria-hidden="true"></div>
-        <div class="hero-glow hero-glow-two" aria-hidden="true"></div>
-        <div class="hero-sculpture hero-sculpture-left" aria-hidden="true">
-          <span></span><span></span><span></span>
+        <div class="grainient-bg" aria-hidden="true"></div>
+        <div class="hero-floating-element element-1" aria-hidden="true">
+          <img src="photo/1 element.png" alt="" />
         </div>
-        <div class="hero-sculpture hero-sculpture-right" aria-hidden="true">
-          <span></span><span></span><span></span>
+        <div class="hero-floating-element element-2" aria-hidden="true">
+          <img src="photo/2 element.png" alt="" />
         </div>
-        <div class="hero-detail-card hero-detail-one" aria-hidden="true">AI visual system</div>
-        <div class="hero-detail-card hero-detail-two" aria-hidden="true">Website strategy</div>
+        <div class="hero-floating-element element-3" aria-hidden="true">
+          <img src="photo/3 element.png" alt="" />
+        </div>
 
         <div class="container v2-hero-layout">
-          <div class="v2-hero-copy reveal">
-            <p class="eyebrow"><span></span> Web Design • AI Visuals • Digital Content</p>
+          <div class="v2-hero-copy">
+            <p class="eyebrow">Web Design • AI Visuals • Digital Content</p>
             <h1 data-content="hero.title" data-accent-first><span class="accent-serif">Nowoczesne</span> strony dla firm i ekspertów</h1>
             <p class="v2-lead" data-content="hero.subtitle">Tworzymy strony internetowe, które budują profesjonalny wizerunek, jasno pokazują wartość oferty i prowadzą klientów do kontaktu.</p>
             <div class="hero-actions v2-actions">
-              <a class="button button-accent" href="#kontakt">Zamów wycenę <span class="button-arrow" aria-hidden="true">↗</span></a>
-              <a class="button button-ghost" href="#oferta">Zobacz ofertę</a>
+              <a class="button button-accent" href="#kontakt" data-content="hero.btn1_text" data-href-key="hero.btn1_href">Zamów wycenę <span class="button-arrow" aria-hidden="true">↗</span></a>
+              <a class="button button-ghost" href="#oferta" data-content="hero.btn2_text" data-href-key="hero.btn2_href">Zobacz ofertę</a>
             </div>
           </div>
         </div>
@@ -83,121 +120,189 @@
 
       <section class="section v2-offer" id="oferta">
         <div class="container">
-          <div class="v2-section-head reveal">
-            <h2 data-content="offer.title" data-accent-first><span class="accent-serif">Co</span> tworzymy?</h2>
-            <p data-content="offer.subtitle">Łączymy nowoczesne strony internetowe, AI visuale i content, żeby Twoja firma wyglądała lepiej online.</p>
+          <div class="v2-section-head">
+            <h2 class="reveal" data-content="offer.title" data-accent-first><span class="accent-serif">Co</span> tworzymy?</h2>
+            <p class="reveal" data-delay="1" data-content="offer.subtitle">Łączymy nowoczesne strony internetowe, AI visuale i content, żeby Twoja firma wyglądała lepiej online.</p>
           </div>
 
           <div class="v2-service-grid">
-            <article class="v2-service-card main reveal">
-              <span class="card-number">01</span>
-              <div class="service-preview v2-service-preview" aria-hidden="true">
-                <div class="preview-browser">
-                  <div class="preview-bar"><span></span><span></span><span></span></div>
-                  <div class="preview-site">
-                    <small>MAIN PRODUCT</small>
-                    <strong>Website<br />system</strong>
-                    <i></i>
-                  </div>
+            <!-- Card 1 -->
+            <a href="#kontakt" class="v2-service-card reveal">
+              <div class="service-card-header">
+                <span class="card-number">01</span>
+              </div>
+              <div class="service-card-body">
+                <h3 data-content="offer.card1.title">Strony internetowe</h3>
+                <div class="service-tags">
+                  <span>Biznesowe</span>
+                  <span>Landing Pages</span>
+                  <span>Wygodne CMS</span>
+                  <span>RWD (Mobile)</span>
                 </div>
               </div>
-              <h3 data-content="offer.card1.title">Strony internetowe</h3>
-              <p data-content="offer.card1.text">Nowoczesne strony dla firm, ekspertów i usługodawców.</p>
-            </article>
+              <div class="service-card-footer">
+                <div class="service-arrow" aria-hidden="true">↗</div>
+              </div>
+            </a>
 
-            <article class="v2-service-card reveal" data-delay="1">
-              <span class="card-number">02</span>
-              <div class="mini-visual ai-visual" aria-hidden="true"><div></div><span>AI / VISUAL</span></div>
-              <h3 data-content="offer.card2.title">Visuale AI</h3>
-              <p data-content="offer.card2.text">Grafiki i obrazy, które wzmacniają wygląd strony i marki.</p>
-            </article>
+            <!-- Card 2 -->
+            <a href="#kontakt" class="v2-service-card reveal" data-delay="1">
+              <div class="service-card-header">
+                <span class="card-number">02</span>
+              </div>
+              <div class="service-card-body">
+                <h3 data-content="offer.card2.title">Visuale AI</h3>
+                <div class="service-tags">
+                  <span>Grafiki AI</span>
+                  <span>Mockupy</span>
+                  <span>Ilustracje</span>
+                  <span>Zdjęcia produktów</span>
+                </div>
+              </div>
+              <div class="service-card-footer">
+                <div class="service-arrow" aria-hidden="true">↗</div>
+              </div>
+            </a>
 
-            <article class="v2-service-card reveal" data-delay="2">
-              <span class="card-number">03</span>
-              <div class="mini-visual content-visual" aria-hidden="true"><span>D</span><span>C</span><span>+</span></div>
-              <h3 data-content="offer.card3.title">Digital content</h3>
-              <p data-content="offer.card3.text">Materiały wizualne do social media, reklam i prezentacji.</p>
-            </article>
+            <!-- Card 3 -->
+            <a href="#kontakt" class="v2-service-card reveal" data-delay="2">
+              <div class="service-card-header">
+                <span class="card-number">03</span>
+              </div>
+              <div class="service-card-body">
+                <h3 data-content="offer.card3.title">Digital content</h3>
+                <div class="service-tags">
+                  <span>Social Media</span>
+                  <span>Banery</span>
+                  <span>Prezentacje</span>
+                  <span>Wideo & Motion</span>
+                </div>
+              </div>
+              <div class="service-card-footer">
+                <div class="service-arrow" aria-hidden="true">↗</div>
+              </div>
+            </a>
           </div>
         </div>
       </section>
 
       <section class="section v2-website-value" id="strony">
         <div class="container">
-          <div class="v2-section-head reveal">
-            <h2 data-content="web.title" data-accent-first><span class="accent-serif">Profesjonalny</span> wizerunek online</h2>
-            <p data-content="web.subtitle">Tworzymy stronę, która buduje zaufanie, porządkuje ofertę i wzmacnia pierwsze wrażenie.</p>
-          </div>
-
-          <div class="v2-web-system reveal">
-            <div class="connection-lines" aria-hidden="true"></div>
-            <div class="v2-feature-block top-left" tabindex="0"><b>Jasna oferta</b><span>Klient od razu rozumie, co sprzedajesz.</span></div>
-            <div class="v2-feature-block top-right" tabindex="0"><b>Premium visual</b><span>Strona wygląda nowocześnie i spójnie.</span></div>
-            <div class="v2-feature-block mid-left" tabindex="0"><b>Mobile version</b><span>Projekt działa wygodnie na telefonie.</span></div>
-            <div class="v2-feature-block mid-right" tabindex="0"><b>Formularz kontaktowy</b><span>Użytkownik ma prostą drogę do zapytania.</span></div>
-            <div class="v2-feature-block bottom-left" tabindex="0"><b>Sekcje usług</b><span>Oferta jest podzielona na czytelne części.</span></div>
-            <div class="v2-feature-block bottom-right" tabindex="0"><b>Podstawowe SEO</b><span>Strona ma solidny techniczny start.</span></div>
-            <div class="v2-feature-block lower-left" tabindex="0"><b>Mapa i kontakt</b><span>Dane kontaktowe są łatwe do znalezienia.</span></div>
-            <div class="v2-feature-block lower-right" tabindex="0"><b>AI visuale</b><span>Dodajemy materiały, gdy brakuje dobrych zdjęć.</span></div>
-
-            <div class="v2-central-mockup real-site-shot" aria-hidden="true">
-              <img src="photo/screen web desc.png" alt="" loading="lazy" />
+          <div class="v2-features-grid">
+            <!-- Top-left: Heading cell -->
+            <div class="features-heading-cell reveal">
+              <span class="features-label">Co dostaniesz</span>
+              <h2 data-content="web.title" data-accent-first><span class="accent-serif">Profesjonalny</span> wizerunek online</h2>
+              <p data-content="web.subtitle">Tworzymy stronę, która buduje zaufanie, porządkuje ofertę i wzmacnia pierwsze wrażenie.</p>
             </div>
 
-            <div class="v2-mobile-mockup real-mobile-shot" aria-hidden="true">
-              <img src="photo/screen web mob.png" alt="" loading="lazy" />
+            <!-- Card 1 -->
+            <div class="v2-feature-card reveal">
+              <div class="feature-card-top">
+                <h3 class="feature-title">Strategię strony</h3>
+                <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <circle cx="12" cy="12" r="6"></circle>
+                  <circle cx="12" cy="12" r="2"></circle>
+                </svg>
+              </div>
+              <p class="feature-desc">Przemyślany układ dopasowany do Twojego biznesu.</p>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="v2-feature-card reveal" data-delay="1">
+              <div class="feature-card-top">
+                <h3 class="feature-title">Treści</h3>
+                <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                  <polyline points="14 2 14 8 20 8"></polyline>
+                  <line x1="16" y1="13" x2="8" y2="13"></line>
+                  <line x1="16" y1="17" x2="8" y2="17"></line>
+                  <polyline points="10 9 9 9 8 9"></polyline>
+                </svg>
+              </div>
+              <p class="feature-desc">Pomagamy przygotować teksty, które są jasne i przekonujące.</p>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="v2-feature-card reveal" data-delay="2">
+              <div class="feature-card-top">
+                <h3 class="feature-title">Projekt Premium</h3>
+                <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                  <path d="M6 3h12l4 6-10 12L2 9z"></path>
+                  <path d="M11 3 8 9l4 12 4-12-3-6"></path>
+                  <path d="M2 9h20"></path>
+                </svg>
+              </div>
+              <p class="feature-desc">Nowoczesny wygląd zgodny z identyfikacją marki.</p>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="v2-feature-card reveal" data-delay="3">
+              <div class="feature-card-top">
+                <h3 class="feature-title">Kompletne wdrożenie</h3>
+                <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                  <polyline points="16 18 22 12 16 6"></polyline>
+                  <polyline points="8 6 2 12 8 18"></polyline>
+                </svg>
+              </div>
+              <p class="feature-desc">Kodujemy, testujemy i publikujemy stronę.</p>
+            </div>
+
+            <!-- Card 5 -->
+            <div class="v2-feature-card reveal" data-delay="4">
+              <div class="feature-card-top">
+                <h3 class="feature-title">Spokojną głowę</h3>
+                <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                </svg>
+              </div>
+              <p class="feature-desc">Nie musisz zajmować się technicznymi szczegółami - robimy to za Ciebie.</p>
             </div>
           </div>
-
-          <ul class="v2-value-chips reveal" data-delay="2">
-            <li>Czytelna struktura</li>
-            <li>Profesjonalny wygląd</li>
-            <li>Lepsze pierwsze wrażenie</li>
-            <li>Strona gotowa pod kontakt</li>
-          </ul>
         </div>
       </section>
 
       <section class="section v2-process" id="proces">
         <div class="container">
-          <div class="v2-section-head reveal">
-            <h2><span class="accent-serif">Prosty</span> proces bez chaosu</h2>
-            <p>Prowadzimy projekt krok po kroku - od pierwszej rozmowy do gotowej strony online.</p>
+          <div class="v2-section-head">
+            <h2 class="reveal" data-content="process.title" data-accent-first><span class="accent-serif">Prosty</span> proces bez chaosu</h2>
+            <p class="reveal" data-delay="1" data-content="process.subtitle">Prowadzimy projekt krok po kroku - od pierwszej rozmowy do gotowej strony online.</p>
           </div>
 
-          <ol class="v2-timeline reveal">
-            <li><span>01</span><h3>Rozmowa</h3><p>Poznajemy firmę, ofertę i cel strony.</p></li>
-            <li><span>02</span><h3>Struktura</h3><p>Układamy sekcje, komunikację i kierunek wizualny.</p></li>
-            <li><span>03</span><h3>Projekt</h3><p>Tworzymy pierwszą wersję nowoczesnej strony.</p></li>
-            <li><span>04</span><h3>Poprawki</h3><p>Dopracowujemy teksty, visuale i szczegóły.</p></li>
-            <li><span>05</span><h3>Publikacja</h3><p>Przygotowujemy stronę do uruchomienia online.</p></li>
+          <ol class="v2-timeline">
+            <li class="reveal"><span>01</span><h3 data-content="process.p1_title">Rozmowa</h3><p data-content="process.p1_desc">Poznajemy firmę, ofertę i cel strony.</p></li>
+            <li class="reveal" data-delay="1"><span>02</span><h3 data-content="process.p2_title">Struktura</h3><p data-content="process.p2_desc">Układamy sekcje, komunikację i kierunek wizualny.</p></li>
+            <li class="reveal" data-delay="2"><span>03</span><h3 data-content="process.p3_title">Projekt</h3><p data-content="process.p3_desc">Tworzymy pierwszą версию nowoczesnej strony.</p></li>
+            <li class="reveal" data-delay="3"><span>04</span><h3 data-content="process.p4_title">Poprawki</h3><p data-content="process.p4_desc">Dopracowujemy teksty, visuale i szczegóły.</p></li>
+            <li class="reveal" data-delay="4"><span>05</span><h3 data-content="process.p5_title">Publikacja</h3><p data-content="process.p5_desc">Przygotowujemy stronę do uruchomienia online.</p></li>
           </ol>
         </div>
       </section>
 
       <section class="section v2-extra" id="uslugi">
         <div class="container">
-          <div class="v2-section-head reveal">
-            <h2 data-content="extra.title" data-accent-first><span class="accent-serif">Dodatkowe</span> usługi, które wzmacniają stronę</h2>
-            <p data-content="extra.subtitle">Jeśli nie masz dobrych materiałów, możemy stworzyć visuale i content dopasowany do Twojej marki.</p>
+          <div class="v2-section-head">
+            <h2 class="reveal" data-content="extra.title" data-accent-first><span class="accent-serif">Dodatkowe</span> usługi, które wzmacniają stronę</h2>
+            <p class="reveal" data-delay="1" data-content="extra.subtitle">Jeśli nie masz dobrych materiałów, możemy stworzyć visuale i content dopasowany do Twojej marki.</p>
           </div>
 
           <div class="v2-gallery">
             <article class="v2-gallery-card reveal">
               <div class="visual-art art-hero" data-image-key="extra.card1.image" aria-hidden="true"><div class="hero-shape-a"></div><div class="hero-shape-b"></div></div>
-              <div><h3 data-content="extra.card1.title">AI visuale do strony</h3><p>Grafiki usług, tła i mockupy.</p></div>
+              <div class="v2-gallery-info"><h3 data-content="extra.card1.title">AI visuale do strony</h3><p>Grafiki usług, tła i mockupy.</p></div>
             </article>
             <article class="v2-gallery-card reveal" data-delay="1">
               <div class="visual-art art-product" data-image-key="extra.card2.image" aria-hidden="true"><div class="product-bottle"></div></div>
-              <div><h3 data-content="extra.card2.title">Product visuals</h3><p>Zdjęcia produktów do strony, sklepu i reklam.</p></div>
+              <div class="v2-gallery-info"><h3 data-content="extra.card2.title">Product visuals</h3><p>Zdjęcia produktów do strony, sklepu i reklam.</p></div>
             </article>
             <article class="v2-gallery-card reveal" data-delay="2">
               <div class="visual-art art-beauty" data-image-key="extra.card3.image" aria-hidden="true"><div class="beauty-profile"></div></div>
-              <div><h3 data-content="extra.card3.title">Content do social media</h3><p>Materiały wizualne do Instagrama, reklam i prezentacji.</p></div>
+              <div class="v2-gallery-info"><h3 data-content="extra.card3.title">Content do social media</h3><p>Materiały wizualne do Instagrama, reklam i prezentacji.</p></div>
             </article>
             <article class="v2-gallery-card reveal" data-delay="3">
               <div class="visual-art art-food" data-image-key="extra.card4.image" aria-hidden="true"><div class="food-plate"></div></div>
-              <div><h3 data-content="extra.card4.title">AI video / motion</h3><p>Krótkie animacje i video elementy do digital komunikacji.</p></div>
+              <div class="v2-gallery-info"><h3 data-content="extra.card4.title">AI video / motion</h3><p>Krótkie animacje i video elementy do digital komunikacji.</p></div>
             </article>
           </div>
         </div>
@@ -205,30 +310,53 @@
 
       <section class="section v2-worth">
         <div class="container">
-          <div class="v2-section-head reveal">
-            <h2><span class="accent-serif">Dlaczego</span> warto pracować z nami?</h2>
-            <p>Łączymy design, strukturę i visuale, żeby Twoja firma wyglądała profesjonalnie od pierwszego kontaktu.</p>
+          <div class="v2-section-head">
+            <h2 class="reveal" data-content="worth.title" data-accent-first><span class="accent-serif">Dlaczego</span> warto pracować z nami?</h2>
+            <p class="reveal" data-delay="1" data-content="worth.subtitle">Łączymy design, strukturę i visuale, żeby Twoja firma wyglądała profesjonalnie od pierwszego kontaktu.</p>
           </div>
 
           <div class="v2-worth-grid">
-            <article class="v2-worth-card reveal"><span>01</span><h3>Premium pierwsze wrażenie</h3><p>Strona, która od razu wygląda nowocześnie i profesjonalnie.</p></article>
-            <article class="v2-worth-card reveal" data-delay="1"><span>02</span><h3>Jasna prezentacja oferty</h3><p>Pomagamy pokazać usługi w prosty i zrozumiały sposób.</p></article>
-            <article class="v2-worth-card reveal" data-delay="2"><span>03</span><h3>Visuale dopasowane do marki</h3><p>Możemy stworzyć grafiki, które pasują do stylu strony.</p></article>
-            <article class="v2-worth-card reveal" data-delay="3"><span>04</span><h3>Łatwy kontakt</h3><p>Dodajemy czytelne przyciski, formularz i sekcje, które pomagają klientowi szybko napisać lub zadzwonić.</p></article>
+            <article class="v2-worth-card reveal"><span>01</span><h3 data-content="worth.w1_title">Premium pierwsze wrażenie</h3><p data-content="worth.w1_desc">Strona, która od razu wygląda nowocześnie i profesjonalnie.</p></article>
+            <article class="v2-worth-card reveal" data-delay="1"><span>02</span><h3 data-content="worth.w2_title">Jasna prezentacja oferty</h3><p data-content="worth.w2_desc">Pomagamy pokazać usługi w prosty i zrozumiały sposób.</p></article>
+            <article class="v2-worth-card reveal" data-delay="2"><span>03</span><h3 data-content="worth.w3_title">Visuale dopasowane do marki</h3><p data-content="worth.w3_desc">Możemy stworzyć grafiki, które pasują do stylu strony.</p></article>
+            <article class="v2-worth-card reveal" data-delay="3"><span>04</span><h3 data-content="worth.w4_title">Łatwy kontakt</h3><p data-content="worth.w4_desc">Dodajemy czytelne przyciski, formularz i sekcje, które pomagają klientowi szybko napisać lub zadzwonić.</p></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section faq v2-faq" id="faq">
+        <div class="container faq-layout">
+          <div class="faq-heading">
+            <h2 class="reveal" data-content="faq.title"><span class="accent-serif">Najczęstsze</span> pytania</h2>
+            <p class="faq-subtitle reveal" data-delay="1">Odpowiadamy na pytania, które słyszymy najczęściej. Jeśli nie znajdziesz odpowiedzi — napisz, chętnie pomożemy.</p>
+            <a href="#kontakt" class="faq-cta-link reveal" data-delay="2">Napisz do nas <span aria-hidden="true">↗</span></a>
+          </div>
+          <div class="accordion reveal" data-delay="1">
+            <details open><summary><span data-content="faq.q1">Ile trwa stworzenie strony?</span><i aria-hidden="true"></i></summary><p data-content="faq.a1">Prosta strona może być gotowa w ciągu kilku dni, a bardziej rozbudowany projekt zwykle wymaga więcej czasu. Wszystko zależy od zakresu, materiałów i liczby poprawek.</p></details>
+            <details><summary><span data-content="faq.q2">Czy muszę mieć gotowe teksty?</span><i aria-hidden="true"></i></summary><p data-content="faq.a2">Nie. Możemy pomóc ułożyć treść i strukturę strony.</p></details>
+            <details><summary><span data-content="faq.q3">Czy muszę mieć zdjęcia?</span><i aria-hidden="true"></i></summary><p data-content="faq.a3">Nie zawsze. Możemy wykorzystać Twoje materiały albo stworzyć jakościowe AI visuale.</p></details>
+            <details><summary><span data-content="faq.q4">Czy strona będzie działać na telefonie?</span><i aria-hidden="true"></i></summary><p data-content="faq.a4">Tak. Każdy projekt przygotowujemy również pod mobile.</p></details>
+            <details><summary><span data-content="faq.q5">Czy mogę zamówić tylko landing page?</span><i aria-hidden="true"></i></summary><p data-content="faq.a5">Tak. Tworzymy landing pages oraz bardziej rozbudowane strony firmowe.</p></details>
           </div>
         </div>
       </section>
 
       <section class="section contact v2-contact" id="kontakt">
-        <div class="contact-glow" aria-hidden="true"></div>
-        <div class="container v2-contact-layout">
-          <div class="contact-copy reveal">
-            <h2 data-content="contact.title" data-accent-first><span class="accent-serif">Opowiedz</span> nam o swoim projekcie</h2>
-            <p data-content="contact.text">Opisz swoją firmę i stronę, której potrzebujesz. Wrócimy z propozycją i wstępną wyceną.</p>
-            <div class="contact-direct">
-              <span>Wolisz wiadomość?</span>
-              <a href="https://www.instagram.com/ai.brand.agency/" target="_blank" rel="noreferrer">Napisz na Instagramie</a>
-            </div>
+        <div class="contact-gradient" aria-hidden="true"></div>
+        <div class="container">
+          <div class="contact-copy">
+            <h2 class="reveal" data-content="contact.title" data-accent-first><span class="accent-serif">Opowiedz</span> nam o swoim projekcie</h2>
+            <p class="reveal" data-delay="1" data-content="contact.text">Opisz swoją firmę i stronę, której potrzebujesz. Wrócimy z propozycją i wstępną wyceną.</p>
+            <a href="https://www.instagram.com/ai.brand.agency/" target="_blank" rel="noreferrer" class="contact-instagram-btn reveal" data-delay="2" data-content="contact.insta_text" data-href-key="contact.insta_href">
+              <svg class="instagram-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" width="18" height="18">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+              </svg>
+              Nasz Instagram
+            </a>
+
+
           </div>
 
           <form class="contact-form reveal" data-delay="1" name="wycena" method="POST" data-netlify="true" data-contact-form>
@@ -237,41 +365,26 @@
               <label><span>Imię *</span><input type="text" name="imie" autocomplete="given-name" required placeholder="Jak masz na imię?" /></label>
               <label><span>Firma *</span><input type="text" name="firma" autocomplete="organization" required placeholder="Nazwa firmy" /></label>
               <label><span>Branża *</span><input type="text" name="branza" required placeholder="Np. beauty, wnętrza" /></label>
-              <label><span>Strona www <small>(opcjonalnie)</small></span><input type="url" name="strona" autocomplete="url" placeholder="https://" /></label>
               <label><span>E-mail *</span><input type="email" name="email" autocomplete="email" required placeholder="kontakt@firma.pl" /></label>
+              
+              <label class="form-full"><span>Czego potrzebujesz? *</span><input type="text" name="wiadomosc" required placeholder="Opisz krótko projekt, ofertę lub cel strony..." /></label>
+
+              <label><span>Strona www <small>(opcjonalnie)</small></span><input type="url" name="strona" autocomplete="url" placeholder="https://" /></label>
               <label><span>Telefon <small>(opcjonalnie)</small></span><input type="tel" name="telefon" autocomplete="tel" placeholder="+48" /></label>
+              
               <label class="form-full budget-field">
                 <span>Budżet projektu *</span>
-                <input type="range" name="budzet" min="3000" max="50000" step="500" value="10000" data-budget-range required />
+                <input type="range" name="budzet" min="500" max="50000" step="500" value="10000" data-budget-range required />
                 <strong><output data-budget-output>10 000 zł</output></strong>
                 <small>Przesuń suwak, żeby określić orientacyjny budżet.</small>
               </label>
-              <label class="form-full"><span>Czego potrzebujesz? *</span><textarea name="wiadomosc" required rows="4" placeholder="Opisz krótko projekt, ofertę lub cel strony..."></textarea></label>
             </div>
             <div class="form-bottom">
-              <label class="consent"><input type="checkbox" name="zgoda_na_kontakt" required /><span>Zgadzam się na kontakt w sprawie wyceny.</span></label>
-              <button class="button button-accent submit-button" type="submit">Wyślij zapytanie <span class="button-arrow" aria-hidden="true">↗</span></button>
+              <label class="consent"><input type="checkbox" name="zgoda_na_kontakt" required /><span data-html-content="contact.consent_html">Zapoznałem(-am) się z <a href="polityka-prywatnosci.html" target="_blank" rel="noreferrer" class="consent-link">Polityką Prywatności</a> i wyrażam zgodę na przetwarzanie moich danych osobowych w celu udzielenia odpowiedzi na przesłane zapytanie.</span></label>
+              <button class="button button-accent submit-button" type="submit" data-content="contact.submit_btn_text">Wyślij zapytanie <span class="button-arrow" aria-hidden="true">↗</span></button>
             </div>
             <p class="form-status" role="status" aria-live="polite" data-form-status></p>
           </form>
-        </div>
-      </section>
-
-      <section class="section faq v2-faq" id="faq">
-        <div class="container faq-layout">
-          <div class="faq-heading reveal">
-            <h2><span class="accent-serif">Najczęstsze</span> pytania</h2>
-            <div class="faq-visual" aria-hidden="true">
-              <img src="photo/screen web mob 2.png" alt="" loading="lazy" />
-            </div>
-          </div>
-          <div class="accordion reveal" data-delay="1">
-            <details open><summary><span>01</span>Ile trwa stworzenie strony?<i aria-hidden="true"></i></summary><p>Prosta strona może być gotowa w ciągu kilku dni, a bardziej rozbudowany projekt zwykle wymaga więcej czasu. Wszystko zależy od zakresu, materiałów i liczby poprawek.</p></details>
-            <details><summary><span>02</span>Czy muszę mieć gotowe teksty?<i aria-hidden="true"></i></summary><p>Nie. Możemy pomóc ułożyć treść i strukturę strony.</p></details>
-            <details><summary><span>03</span>Czy muszę mieć zdjęcia?<i aria-hidden="true"></i></summary><p>Nie zawsze. Możemy wykorzystać Twoje materiały albo stworzyć jakościowe AI visuale.</p></details>
-            <details><summary><span>04</span>Czy strona będzie działać na telefonie?<i aria-hidden="true"></i></summary><p>Tak. Każdy projekt przygotowujemy również pod mobile.</p></details>
-            <details><summary><span>05</span>Czy mogę zamówić tylko landing page?<i aria-hidden="true"></i></summary><p>Tak. Tworzymy landing pages oraz bardziej rozbudowane strony firmowe.</p></details>
-          </div>
         </div>
       </section>
     </main>
@@ -284,15 +397,27 @@
         </a>
         <p>Nowoczesne strony internetowe i AI visual content dla firm.</p>
         <div class="footer-contact">
-          <a class="footer-email" href="mailto:ai.brand.manager@gmail.com">ai.brand.manager@gmail.com</a>
-          <a href="https://www.instagram.com/ai.brand.agency/" target="_blank" rel="noreferrer">Instagram</a>
+          <a class="footer-email" href="mailto:ai.brand.manager@gmail.com" data-content="footer.email_text" data-href-key="footer.email_href">ai.brand.manager@gmail.com</a>
+          <a href="https://www.instagram.com/ai.brand.agency/" target="_blank" rel="noreferrer" data-content="footer.instagram_text" data-href-key="footer.instagram_href">Instagram</a>
         </div>
       </div>
       <div class="container footer-bottom">
-        <span>© <span data-year></span> AI Brand Agency</span>
+        <span>© <span data-year></span> <span data-content="footer.copyright">AI Brand Agency</span></span>
         <nav aria-label="Nawigacja w stopce"><a href="#oferta">Oferta</a><a href="#proces">Proces</a><a href="#uslugi">Dodatkowe usługi</a><a href="#kontakt">Kontakt</a><a href="#faq">FAQ</a></nav>
         <div class="legal"><a href="polityka-prywatnosci.html">Polityka prywatności</a><a href="polityka-cookies.html">Polityka cookies</a></div>
       </div>
     </footer>
+
+    <!-- Cookie Consent Banner -->
+    <div id="cookie-banner" class="cookie-banner" aria-hidden="true" style="display: none;">
+      <div class="cookie-content">
+        <p>
+          Używamy wyłącznie niezbędnych plików cookies w celu prawidłowego działania strony oraz obsługi formularza. Szczegóły znajdziesz w naszej 
+          <a href="polityka-prywatnosci.html" target="_blank">Polityce prywatności</a> i 
+          <a href="polityka-cookies.html" target="_blank">Polityce cookies</a>.
+        </p>
+        <button id="cookie-accept" class="button button-small button-accent cookie-btn">Rozumiem</button>
+      </div>
+    </div>
   </body>
 </html>

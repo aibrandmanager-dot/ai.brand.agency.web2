@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="theme-color" content="#070707" />
+    <title>Panel sterowania — AI Brand Agency</title>
+    <link rel="icon" type="image/png" href="photo/LOGO pl glow.png" />
+    <link rel="apple-touch-icon" href="photo/LOGO pl glow.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="admin.css" />
+    <script src="dashboard.js" defer></script>
+  </head>
+  <body class="admin-body">
+    <main class="admin-shell">
+      <section class="admin-dashboard" data-admin-dashboard>
+        <header class="admin-topbar">
+          <a class="brand" href="index.html">
+            <img class="brand-logo" src="photo/LOGO pl glow.png" alt="" />
+            <span>AI Brand<br />Agency</span>
+          </a>
+          <div>
+            <p class="section-index">Panel admina</p>
+            <h1>Leady i treści strony</h1>
+          </div>
+          <button class="button button-light button-small" type="button" data-logout>Wyloguj</button>
+        </header>
+
+        <div class="admin-tabs" role="tablist" aria-label="Sekcje panelu">
+          <button class="active" type="button" data-tab="leads">Zgłoszenia</button>
+          <button type="button" data-tab="content">Treści strony</button>
+          <button type="button" data-tab="legal">Polityki prawne</button>
+          <a href="index.html" target="_blank" rel="noreferrer">Podgląd strony ↗</a>
+        </div>
+
+        <!-- Tab 1: Leads -->
+        <section class="admin-panel active" data-panel="leads">
+          <div class="panel-heading">
+            <div>
+              <p class="section-index">01 / Contact requests</p>
+              <h2>Zgłoszenia i konwersacje</h2>
+            </div>
+            <button class="button button-accent" type="button" data-refresh-leads>Odśwież</button>
+          </div>
+          <div class="cms-editor-grid">
+            <div class="leads-list-pane" data-leads-list style="max-height: 600px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; padding-right: 8px;"></div>
+            <div class="leads-chat-pane">
+              <div class="preview-panel" id="active-chat-panel">
+                <div class="preview-header" style="display:flex; justify-content:space-between; align-items:center;">
+                  <div style="display:flex; align-items:center; gap:8px;">
+                    <span class="preview-dot" id="chat-client-dot" style="background:#666; box-shadow:none;"></span>
+                    <span class="preview-title" id="chat-client-title" style="text-transform:none; letter-spacing:normal; font-weight:600; color:#fff; font-size:13px;">Wybierz klienta z listy po lewej</span>
+                  </div>
+                  <div id="chat-status-wrapper" style="display:none; align-items:center; gap:6px;">
+                    <span style="font-size:10px; color:var(--muted); font-family:'DM Mono';">Status:</span>
+                    <select id="chat-status-select" style="font-size:11px; padding:4px 8px; border-radius:6px; background:rgba(0,0,0,0.3); border:1px solid var(--line); color:#fff; width:auto; height:auto; margin:0;">
+                      <option value="new">new</option>
+                      <option value="contacted">contacted</option>
+                      <option value="qualified">qualified</option>
+                      <option value="closed">closed</option>
+                      <option value="spam">spam</option>
+                    </select>
+                  </div>
+                </div>
+                <div id="chat-thread-container" style="display:flex; flex-direction:column; height:450px; background:rgba(0,0,0,0.22); border-radius:12px; border:1px solid var(--line-strong); overflow:hidden;">
+                  <div id="chat-messages" style="flex:1; overflow-y:auto; padding:20px; display:flex; flex-direction:column; gap:16px;">
+                    <div style="text-align:center; color:var(--muted); font-size:13px; margin-top:140px;">
+                      Wybierz klienta z listy po lewej stronie, aby wyświetlić historię konwersacji i odpisać.
+                    </div>
+                  </div>
+                  <div id="chat-input-area" style="padding:16px; border-top:1px solid var(--line-strong); display:none; gap:10px; align-items:center; background:rgba(10,10,10,0.5);">
+                    <textarea id="chat-reply-text" placeholder="Napisz odpowiedź do klienta..." rows="2" style="flex:1; background:rgba(0,0,0,0.28); border:1px solid var(--line); border-radius:8px; padding:10px; color:var(--ink); font-size:13px; min-height:52px; resize:none;"></textarea>
+                    <button class="button button-accent" id="chat-send-btn" style="min-height:52px; padding:0 20px; font-size:13px;">Wyślij</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Tab 2: CMS Content & Colors -->
+        <section class="admin-panel" data-panel="content">
+          <div class="panel-heading">
+            <div>
+              <p class="section-index">02 / CMS</p>
+              <h2>Edycja tekstów i kolorów</h2>
+              <p>Wszystkie zmiany są zapisywane w bazie danych Supabase w czasie rzeczywistym.</p>
+            </div>
+            <button class="button button-accent" type="button" data-save-content>Zapisz zmiany</button>
+          </div>
+          
+          <div class="cms-layout">
+            <nav class="cms-sidebar" data-cms-sidebar>
+              <button class="cms-nav-btn active" type="button" data-cms-section="hero">Hero (Nagłówek)</button>
+              <button class="cms-nav-btn" type="button" data-cms-section="offer">Co tworzymy (Oferta)</button>
+              <button class="cms-nav-btn" type="button" data-cms-section="web">Wizerunek online</button>
+              <button class="cms-nav-btn" type="button" data-cms-section="proces">Proces</button>
+              <button class="cms-nav-btn" type="button" data-cms-section="extra">Usługi dodatkowe</button>
+              <button class="cms-nav-btn" type="button" data-cms-section="worth">Dlaczego warto</button>
+              <button class="cms-nav-btn" type="button" data-cms-section="contact">Kontakt</button>
+              <button class="cms-nav-btn" type="button" data-cms-section="faq">Najczęstsze pytania</button>
+              <button class="cms-nav-btn" type="button" data-cms-section="navigation">Nawigacja i stopka</button>
+              <button class="cms-nav-btn" type="button" data-cms-section="theme">Ustawienia kolorów</button>
+            </nav>
+            
+            <div class="cms-editor-grid">
+              <div class="cms-fields-pane">
+                <div class="content-editor" data-content-editor></div>
+              </div>
+              
+              <!-- Realtime Block Preview Sidebar -->
+              <div class="cms-preview-pane">
+                <div class="preview-panel">
+                  <div class="preview-header">
+                    <span class="preview-dot"></span>
+                    <span class="preview-title">Podgląd w czasie rzeczywistym</span>
+                  </div>
+                  <div class="preview-viewport-wrapper">
+                    <div class="preview-viewport" data-cms-preview-viewport>
+                      <!-- Preview HTML dynamically updated by JS -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <details class="json-editor">
+            <summary>Zaawansowane: pełny JSON treści</summary>
+            <textarea data-content-json rows="14"></textarea>
+          </details>
+          <p class="admin-status" role="status" data-content-status></p>
+        </section>
+
+        <!-- Tab 3: Legal Pages Editing -->
+        <section class="admin-panel" data-panel="legal">
+          <div class="panel-heading">
+            <div>
+              <p class="section-index">03 / Legal CMS</p>
+              <h2>Edycja polityk prawnych</h2>
+              <p>Zmień treść Polityki Prywatności lub Cookies. Zostaną zaktualizowane na stronie bez ponownego wdrażania kodu.</p>
+            </div>
+            <button class="button button-accent" type="button" data-save-legal>Zapisz dokumenty</button>
+          </div>
+          
+          <div class="legal-editor-grid">
+            <div class="editor-field wide">
+              <span>Treść Polityki Prywatności (Format HTML/Tekst)</span>
+              <textarea id="legal-privacy-input" rows="22" placeholder="Wpisz treść polityki prywatności..."></textarea>
+            </div>
+            <div class="editor-field wide">
+              <span>Treść Polityki Cookies (Format HTML/Tekst)</span>
+              <textarea id="legal-cookies-input" rows="22" placeholder="Wpisz treść polityki cookies..."></textarea>
+            </div>
+          </div>
+          <p class="admin-status" role="status" data-legal-status></p>
+        </section>
+      </section>
+    </main>
+  </body>
+</html>

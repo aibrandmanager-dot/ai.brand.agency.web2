@@ -16,15 +16,118 @@
       <a class="legal-back" href="index.html">← Wróć do strony</a>
       <p class="section-index">Dokument / 02</p>
       <h1>Polityka<br />cookies.</h1>
-      <div class="legal-copy">
-        <p class="legal-lead">To jest przygotowany układ dokumentu. Przed publikacją zaktualizuj go zgodnie z faktycznie uruchomioną analityką i integracjami.</p>
-        <h2>1. Czym są pliki cookies</h2>
-        <p>Cookies to niewielkie pliki zapisywane na urządzeniu użytkownika, które wspierają prawidłowe działanie serwisu i jego analizę.</p>
-        <h2>2. Rodzaje cookies</h2>
-        <p>Serwis może używać plików niezbędnych do działania oraz — po uzyskaniu zgody — plików analitycznych lub marketingowych.</p>
-        <h2>3. Zarządzanie zgodą</h2>
-        <p>Użytkownik może zmienić ustawienia cookies w przeglądarce oraz wycofać zgodę na pliki opcjonalne.</p>
+      <div class="legal-copy" id="cookies-content">
+        <p class="legal-lead">Ostatnia aktualizacja: 01.07.2026</p>
+        
+        <h2>1. Wstęp</h2>
+        <p>Niniejsza Polityka plików cookies określa zasady wykorzystywania plików cookies przez stronę internetową <strong>ai-brand-agency.pl</strong>.</p>
+        <p>Pliki cookies są wykorzystywane wyłącznie w zakresie niezbędnym do prawidłowego działania strony internetowej oraz zapewnienia jej bezpieczeństwa.</p>
+        
+        <h2>2. Czym są pliki cookies?</h2>
+        <p>Pliki cookies to niewielkie pliki tekstowe zapisywane na urządzeniu użytkownika podczas korzystania ze strony internetowej. Służą one przede wszystkim do zapewnienia prawidłowego działania strony oraz poprawy bezpieczeństwa jej funkcjonowania.</p>
+        
+        <h2>3. Jakie pliki cookies wykorzystujemy?</h2>
+        <p>Obecnie strona wykorzystuje wyłącznie niezbędne pliki cookies, które są wymagane do prawidłowego działania serwisu. Pliki te nie służą do profilowania użytkowników ani prowadzenia działań marketingowych i nie wymagają zgody zgodnie z obowiązującymi przepisami prawa.</p>
+        
+        <h2>4. Wykorzystywane usługi</h2>
+        <p>W celu zapewnienia działania strony Administrator korzysta z następujących usług:</p>
+        <ul>
+          <li><strong>Netlify:</strong> Usługa hostingu strony internetowej, odpowiedzialna za jej dostępność, bezpieczeństwo oraz prawidłowe funkcjonowanie.</li>
+          <li><strong>Supabase:</strong> Usługa wykorzystywana do obsługi formularza kontaktowego oraz bezpiecznego przechowywania danych przesłanych przez użytkownika.</li>
+          <li><strong>Resend:</strong> Usługa służąca do wysyłania powiadomień e-mail związanych z formularzem kontaktowym.</li>
+        </ul>
+        
+        <h2>5. Wykorzystywane technologie</h2>
+        <table style="width:100%; border-collapse:collapse; margin-top:20px; margin-bottom:20px; font-size:14px; text-align:left;">
+          <thead>
+            <tr style="border-bottom:1px solid var(--line-strong);">
+              <th style="padding:10px 5px;">Usługa</th>
+              <th style="padding:10px 5px;">Cel</th>
+              <th style="padding:10px 5px;">Kategoria</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid var(--line);">
+              <td style="padding:10px 5px;"><strong>Netlify</strong></td>
+              <td style="padding:10px 5px;">Hosting i bezpieczeństwo strony</td>
+              <td style="padding:10px 5px;">Niezbędne</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--line);">
+              <td style="padding:10px 5px;"><strong>Supabase</strong></td>
+              <td style="padding:10px 5px;">Obsługa formularza kontaktowego</td>
+              <td style="padding:10px 5px;">Niezbędne</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--line);">
+              <td style="padding:10px 5px;"><strong>Resend</strong></td>
+              <td style="padding:10px 5px;">Wysyłanie powiadomień e-mail</td>
+              <td style="padding:10px 5px;">Niezbędne</td>
+            </tr>
+          </tbody>
+        </table>
+        
+        <h2>6. Zarządzanie plikami cookies</h2>
+        <p>Większość przeglądarek internetowych umożliwia użytkownikowi:</p>
+        <ul>
+          <li>usuwanie zapisanych plików cookies,</li>
+          <li>blokowanie plików cookies,</li>
+          <li>ustawienie powiadomień przed zapisaniem plików cookies.</li>
+        </ul>
+        <p>Wyłączenie niezbędnych plików cookies może spowodować nieprawidłowe działanie niektórych funkcji strony internetowej.</p>
+        
+        <h2>7. Przekazywanie danych poza Europejski Obszar Gospodarczy</h2>
+        <p>W związku z korzystaniem z usług świadczonych przez zewnętrznych dostawców (m.in. Netlify, Supabase oraz Resend) dane mogą być przetwarzane poza Europejskim Obszarem Gospodarczym. W takich przypadkach przekazywanie danych odbywa się zgodnie z przepisami RODO oraz z zastosowaniem odpowiednich środków ochrony danych, takich jak Standardowe Klauzule Umowne (SCC) lub inne mechanizmy przewidziane przez obowiązujące przepisy prawa.</p>
+        
+        <h2>8. Zmiany Polityki plików cookies</h2>
+        <p>Administrator może aktualizować niniejszą Politykę plików cookies w przypadku zmian przepisów prawa, sposobu działania strony lub wykorzystywanych usług. Aktualna wersja dokumentu jest zawsze dostępna na stronie internetowej.</p>
       </div>
     </main>
+    <script>
+      const loadLegalContent = async () => {
+        let content = null;
+        const localOverride = localStorage.getItem('aiba_mock_content');
+        if (localOverride) {
+          try { content = JSON.parse(localOverride); } catch {}
+        }
+        if (!content) {
+          try {
+            const response = await fetch('https://igtjpyyxfwyezyvchxfk.supabase.co/rest/v1/site_content?id=eq.homepage&select=content', {
+              headers: {
+                apikey: 'sb_publishable_y4HM1wIINVGRjMZrjmrjOA_iIsilUr2',
+                Authorization: 'Bearer sb_publishable_y4HM1wIINVGRjMZrjmrjOA_iIsilUr2'
+              }
+            });
+            if (response.ok) {
+              const [row] = await response.json();
+              content = row?.content;
+            }
+          } catch (e) {
+            console.warn('Failed to load legal content:', e);
+          }
+        }
+        if (content) {
+          if (content.theme) {
+            const accent = content.theme.accent || '#FF5A1F';
+            const bg = content.theme.bg || '#070707';
+            const styleTag = document.createElement('style');
+            styleTag.innerHTML = `
+              :root {
+                --accent: ${accent} !important;
+                --bg: ${bg} !important;
+              }
+            `;
+            document.head.appendChild(styleTag);
+          }
+          if (content.legal && content.legal.cookies && content.legal.cookies.trim()) {
+            const text = content.legal.cookies;
+            if (text.includes('<p>') || text.includes('<h2>') || text.includes('<br>')) {
+              document.getElementById('cookies-content').innerHTML = text;
+            } else {
+              document.getElementById('cookies-content').innerHTML = text.replace(/\n/g, '<br />');
+            }
+          }
+        }
+      };
+      loadLegalContent();
+    </script>
   </body>
 </html>

@@ -11,5 +11,7 @@ node_modules/
 dist/
 build/
 .next/
-.vercel/
-.netlify/
+.vercel
+.netlify
+*.zip
+

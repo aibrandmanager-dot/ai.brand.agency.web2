@@ -2,6 +2,9 @@
 -- Use this if the full setup SQL failed halfway.
 
 alter table public.contact_requests
+  add column if not exists replies jsonb default '[]'::jsonb;
+
+alter table public.contact_requests
   add column if not exists budzet integer;
 
 alter table public.contact_requests
