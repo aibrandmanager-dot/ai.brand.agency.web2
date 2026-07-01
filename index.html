@@ -362,12 +362,12 @@
           <form class="contact-form reveal" data-delay="1" name="wycena" method="POST" data-netlify="true" data-contact-form>
             <input type="hidden" name="form-name" value="wycena" />
             <div class="form-grid">
-              <label><span>Imię *</span><input type="text" name="imie" autocomplete="given-name" required placeholder="Jak masz na imię?" /></label>
-              <label><span>Firma *</span><input type="text" name="firma" autocomplete="organization" required placeholder="Nazwa firmy" /></label>
-              <label><span>Branża *</span><input type="text" name="branza" required placeholder="Np. beauty, wnętrza" /></label>
+              <label><span>Imię *</span><input type="text" name="imie" autocomplete="given-name" required minlength="2" placeholder="Jak masz na imię?" /></label>
+              <label><span>Firma *</span><input type="text" name="firma" autocomplete="organization" required minlength="2" placeholder="Nazwa firmy" /></label>
+              <label><span>Branża *</span><input type="text" name="branza" required minlength="2" placeholder="Np. beauty, wnętrza" /></label>
               <label><span>E-mail *</span><input type="email" name="email" autocomplete="email" required placeholder="kontakt@firma.pl" /></label>
               
-              <label class="form-full"><span>Czego potrzebujesz? *</span><input type="text" name="wiadomosc" required placeholder="Opisz krótko projekt, ofertę lub cel strony..." /></label>
+              <label class="form-full"><span>Czego potrzebujesz? *</span><input type="text" name="wiadomosc" required minlength="10" placeholder="Opisz krótko projekt, ofertę lub cel strony..." /></label>
 
               <label><span>Strona www <small>(opcjonalnie)</small></span><input type="url" name="strona" autocomplete="url" placeholder="https://" /></label>
               <label><span>Telefon <small>(opcjonalnie)</small></span><input type="tel" name="telefon" autocomplete="tel" placeholder="+48" /></label>
