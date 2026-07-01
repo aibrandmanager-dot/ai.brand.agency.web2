@@ -2,10 +2,14 @@
 -- Paste this script into your Supabase SQL Editor (https://supabase.com -> Dashboard -> SQL Editor -> New Query).
 -- Make sure to replace the placeholder API key and recipient email with your actual values.
 
--- 1. Enable the pg_net extension in Supabase (essential for asynchronous, non-blocking HTTP requests)
-create extension if not exists pg_net with schema extensions;
+-- 1. Enable the pg_net extension (without specifying schema, to avoid conflicts if already installed)
+create extension if not exists pg_net;
 
--- 2. Create the notification trigger function
+-- 2. Clean up any previous trigger or function definitions to prevent conflicts
+drop trigger if exists on_contact_request_insert on public.contact_requests;
+drop function if exists public.send_contact_notification();
+
+-- 3. Create the notification trigger function using pg_net
 create or replace function public.send_contact_notification()
 returns trigger as $$
 declare
@@ -18,8 +22,6 @@ declare
   email_payload jsonb;
 begin
   -- Build the JSONB payload for Resend API
-  -- Note: Resend.dev sandboxed domain allows sending from 'onboarding@resend.dev' to your verified account email.
-  -- If you connect your own custom domain to Resend, you can change the 'from' field to 'kontakt@yourdomain.pl'.
   email_payload := jsonb_build_object(
     'from', 'AI Brand Agency Form <onboarding@resend.dev>',
     'to', array[recipient_email],
@@ -57,11 +59,10 @@ begin
 end;
 $$ language plpgsql security definer;
 
--- 3. Bind the function to run after inserts in contact_requests table
-drop trigger if exists on_contact_request_insert on public.contact_requests;
+-- 4. Bind the function to run after inserts in contact_requests table
 create trigger on_contact_request_insert
   after insert on public.contact_requests
   for each row execute function public.send_contact_notification();
 
--- 4. Verify trigger setup message
+-- 5. Verify trigger setup message
 select 'Resend database trigger successfully configured via pg_net!' as status;
