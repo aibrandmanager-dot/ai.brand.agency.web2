@@ -37,15 +37,22 @@ begin
             '</table>'
   )::text;
 
-  -- Fire POST request to Resend API
-  perform extensions.http_post(
-    'https://api.resend.com/emails',
-    email_body,
-    'application/json',
-    headers := json_build_object(
-      'Authorization', 'Bearer ' || resend_api_key
-    )::text
-  );
+  -- Fire POST request using HTTP extension with full headers support.
+  -- Wrapped in a try/catch block to prevent form failures if Resend API has issues or is incorrectly configured.
+  begin
+    perform extensions.http((
+      'POST',
+      'https://api.resend.com/emails',
+      ARRAY[
+        extensions.http_header('Authorization', 'Bearer ' || resend_api_key)
+      ],
+      'application/json',
+      email_body
+    )::extensions.http_request);
+  exception when others then
+    -- Suppress all exceptions to prevent database rollback on client-side requests
+    raise warning 'Resend email dispatch failed: %', SQLERRM;
+  end;
 
   return new;
 end;
