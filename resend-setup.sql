@@ -22,8 +22,9 @@ declare
   email_payload jsonb;
 begin
   -- Build the JSONB payload for Resend API
+  -- Note: Now using your verified custom domain address!
   email_payload := jsonb_build_object(
-    'from', 'AI Brand Agency Form <onboarding@resend.dev>',
+    'from', 'AI Brand Agency Form <kontakt@ai-brand-agency.pl>',
     'to', array[recipient_email],
     'subject', 'Nowa wycena: ' || coalesce(new.imie, 'Klient') || ' (' || coalesce(new.firma, '-') || ')',
     'html', '<h3>Masz nowe zgłoszenie z formularza kontaktowego!</h3>' ||
